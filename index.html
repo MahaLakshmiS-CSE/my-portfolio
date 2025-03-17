@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link href="https://fonts.cdnfonts.com/css/breezy-pro" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #002D62;
+            font-family: 'Breezy Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        h1 {
+            color: white;
+            font-size: 60px;
+            margin-top: 20px;
+        }
+
+        /* Profile Image Styling */
+        .profile-img-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 30px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #00CCFF;
+            box-shadow: 0 0 20px #00CCFF;
+            background: black;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none; 
+            user-select: none;
+        }
+
+        /* Anti-Screenshot Overlay (Only Covers the Image, Not Buttons) */
+        .anti-screenshot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0); /* Initially Transparent */
+            z-index: 5; /* Only above the image */
+            transition: background 0.3s ease-in-out;
+        }
+        
+        /* Buttons Container */
+        .tabs-container {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px; 
+        }
+
+        .profile-tab {
+            width: calc(50% - 40px); 
+            max-width: 300px;
+            height: 150px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: 5px solid #00CCFF;
+            box-shadow: 0 0 20px #00CCFF;
+            animation: glow 1.5s infinite alternate;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .profile-tab {
+                width: 100%;
+            }
+        }
+
+        .profile-tab h3 {
+            color: #00CCFF;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .profile-tab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px #00CCFF, 0 0 60px #00CCFF, 0 0 80px #00CCFF;
+        }
+
+        /* Block Image Interactions */
+        body, img {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mahalakshmi S | Portfolio</h1>
+
+    <!-- Profile Image Section -->
+    <div class="profile-img-container">
+        <img src="Profile_pic.jpeg" alt="Profile Picture" class="profile-img">
+        <div class="anti-screenshot"></div> 
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-container">
+        <div class="profile-tab" onclick="navigateTo('about.html')">
+            <h3>About Me</h3>
+        </div>
+
+        <div class="profile-tab" onclick="navigateTo('skills.html')">
+            <h3>Skills</h3>
+        </div>
+
+        <div class="profile-tab" onclick="navigateTo('achievements.html')">
+            <h3>Achievements</h3>
+        </div>
+
+        <div class="profile-tab" onclick="navigateTo('contact.html')">
+            <h3>Contact</h3>
+        </div>
+    </div>
+
+    <script>
+    function blockScreenshot() {
+        let overlay = document.querySelector(".anti-screenshot");
+        overlay.style.background = "rgba(0, 0, 0, 1)"; // Hide image
+        setTimeout(() => {
+            overlay.style.background = "rgba(0, 0, 0, 0)"; // Restore after 2 sec
+        }, 2000);
+    }
+
+    // Detect PrintScreen Key
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "PrintScreen") {
+            alert("Screenshots are disabled!");
+            blockScreenshot();
+            navigator.clipboard.writeText(""); // Clear copied content
+        }
+    });
+
+    // Detect Snipping Tool & External Captures
+    setInterval(() => {
+        if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
+            alert("Screen capturing is not allowed!");
+            blockScreenshot();
+        }
+    }, 1000);
+
+    // Hide Image When Tab Becomes Inactive
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            blockScreenshot();
+        }
+    });
+</script>
+
+</body>
+</html>
