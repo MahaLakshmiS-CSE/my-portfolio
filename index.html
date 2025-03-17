@@ -139,38 +139,48 @@
     </div>
 
     <script>
-    function blockScreenshot() {
-        let overlay = document.querySelector(".anti-screenshot");
-        overlay.style.background = "rgba(0, 0, 0, 1)"; // Hide image
-        setTimeout(() => {
-            overlay.style.background = "rgba(0, 0, 0, 0)"; // Restore after 2 sec
-        }, 2000);
-    }
-
-    // Detect PrintScreen Key
-    document.addEventListener("keydown", function (e) {
-        if (e.key === "PrintScreen") {
-            alert("Screenshots are disabled!");
-            blockScreenshot();
-            navigator.clipboard.writeText(""); // Clear copied content
+        function navigateTo(page) {
+            window.location.href = page;
         }
-    });
 
-    // Detect Snipping Tool & External Captures
-    setInterval(() => {
-        if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
-            alert("Screen capturing is not allowed!");
-            blockScreenshot();
+        function blockScreenshot() {
+            let overlay = document.querySelector(".anti-screenshot");
+            overlay.style.background = "rgba(0, 0, 0, 1)"; // Hide image
+            setTimeout(() => {
+                overlay.style.background = "rgba(0, 0, 0, 0)"; // Restore after 2 sec
+            }, 2000);
         }
-    }, 1000);
 
-    // Hide Image When Tab Becomes Inactive
-    document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-            blockScreenshot();
-        }
-    });
-</script>
+        // Detect PrintScreen Key
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "PrintScreen") {
+                alert("Screenshots are disabled!");
+                blockScreenshot();
+                navigator.clipboard.writeText(""); // Clear copied content
+            }
+        });
 
+        // Detect Snipping Tools & External Captures
+        setInterval(() => {
+            if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
+                alert("Screen capturing is not allowed!");
+                blockScreenshot();
+            }
+        }, 1000);
+
+        // Hide Image When Tab Becomes Inactive
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
+                blockScreenshot();
+            }
+        });
+
+        // Disable Right-Click on Image
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+            alert("Downloading images is disabled.");
+        });
+
+    </script>
 </body>
 </html>
